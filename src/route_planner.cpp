@@ -40,14 +40,16 @@ float RoutePlanner::CalculateHValue(RouteModel::Node const *node) {
 void RoutePlanner::AddNeighbors(RouteModel::Node *current_node) {
   current_node->FindNeighbors();
   for (auto &neighbour : current_node->neighbors) {
-    float new_g_val = current_node->g_value + current_node->distance(*neighbour);
-    if (neighbour->visited&&neighbour->g_value<new_g_val)
+    float new_g_val =
+        current_node->g_value + current_node->distance(*neighbour);
+    if (neighbour->visited && neighbour->g_value < new_g_val)
       continue;
     neighbour->parent = current_node;
-    neighbour->g_value =new_g_val;
+    neighbour->g_value = new_g_val;
     neighbour->h_value = CalculateHValue(neighbour);
-    if(!neighbour->visited)open_list.push_back(neighbour);
-    neighbour->visited=1;
+    if (!neighbour->visited)
+      open_list.push_back(neighbour);
+    neighbour->visited = 1;
   }
 }
 
@@ -66,7 +68,7 @@ void RoutePlanner::SortOpenList() {
 }
 RouteModel::Node *RoutePlanner::NextNode() {
   SortOpenList();
-  RouteModel::Node *candidate=open_list.back();
+  RouteModel::Node *candidate = open_list.back();
   open_list.pop_back();
   return candidate;
 }
@@ -116,14 +118,14 @@ void RoutePlanner::AStarSearch() {
   RouteModel::Node *current_node = nullptr;
 
   open_list.push_back(start_node);
-  start_node->h_value=CalculateHValue(start_node);
-  start_node->g_value=0;
-  start_node->visited=1;
+  start_node->h_value = CalculateHValue(start_node);
+  start_node->g_value = 0;
+  start_node->visited = 1;
   while (!open_list.empty()) {
-      
+
     current_node = NextNode();
     if (current_node == end_node) {
-    
+
       m_Model.path = ConstructFinalPath(current_node);
 
       return;
