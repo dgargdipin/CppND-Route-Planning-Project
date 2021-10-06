@@ -8,11 +8,6 @@ When cloning this project, be sure to use the `--recurse-submodules` flag. Using
 ```
 git clone https://github.com/dgargdipin/CppND-Route-Planning-Project.git --recurse-submodules
 ```
-or with SSH:
-```
-git clone git@github.com:udacity/CppND-Route-Planning-Project.git --recurse-submodules
-```
-
 ## Dependencies for Running Locally
 * cmake >= 3.11.3
   * All OSes: [click here for installation instructions](https://cmake.org/install/)
@@ -76,6 +71,5 @@ The testing executable is also placed in the `build` directory. From within `bui
 	cmake --build .
 	sudo make install
    ```
-   
    
    

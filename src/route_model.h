@@ -18,7 +18,7 @@ public:
     bool visited = false;
     bool consumed = false;
     std::vector<Node *> neighbors;
-
+    float distanceDijkstra=std::numeric_limits<float>::max();
     void FindNeighbors();
     float distance(Node other) const {
       return std::sqrt(std::pow((x - other.x), 2) + std::pow((y - other.y), 2));

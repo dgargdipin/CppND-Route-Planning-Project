@@ -73,7 +73,12 @@ int main(int argc, const char **argv) {
 
   // Create RoutePlanner object and perform A* search.
   RoutePlanner route_planner{model, start_x, start_y, end_x, end_y};
-  route_planner.AStarSearch();
+  cout<<"Which algorithm to use: \n1: A* Search\n2:Dijkstra\n";
+  int algo_input;
+  cin>>algo_input;
+
+  if(algo_input==1)route_planner.AStarSearch();
+  else route_planner.Dijkstra();
 
   std::cout << "Distance: " << route_planner.GetDistance() << " meters. \n";
 

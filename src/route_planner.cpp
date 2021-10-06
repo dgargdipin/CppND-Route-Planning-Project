@@ -1,6 +1,7 @@
 #include "route_planner.h"
 #include <algorithm>
-
+#include <queue>
+#include <vector>
 RoutePlanner::RoutePlanner(RouteModel &model, float start_x, float start_y,
                            float end_x, float end_y)
     : m_Model(model) {
@@ -116,7 +117,6 @@ RoutePlanner::ConstructFinalPath(RouteModel::Node *current_node) {
 
 void RoutePlanner::AStarSearch() {
   RouteModel::Node *current_node = nullptr;
-
   open_list.push_back(start_node);
   start_node->h_value = CalculateHValue(start_node);
   start_node->g_value = 0;
@@ -134,4 +134,33 @@ void RoutePlanner::AStarSearch() {
   }
 
   // TODO: Implement your solution here.
+}
+
+void RoutePlanner::Dijkstra() {
+  std::priority_queue<RouteModel::Node *, std::vector<RouteModel::Node *>,
+                      dijkstra_comparator>
+      pq;
+  start_node->distanceDijkstra = 0;
+  pq.push(start_node);
+  while (!pq.empty()) {
+    auto current_node = pq.top();
+    pq.pop();
+    if (current_node->visited)
+      continue;
+    current_node->visited = 1;
+    if (current_node == end_node) {
+      m_Model.path = ConstructFinalPath(current_node);
+      return;
+    }
+    current_node->FindNeighbors();
+    for (auto &neighbour : current_node->neighbors) {
+      if (neighbour->distanceDijkstra <
+          current_node->distanceDijkstra + current_node->distance(*neighbour))
+        continue;
+      neighbour->distanceDijkstra =
+          current_node->distanceDijkstra + current_node->distance(*neighbour);
+      neighbour->parent=current_node;
+      pq.push(neighbour);
+    }
+  }
 }
