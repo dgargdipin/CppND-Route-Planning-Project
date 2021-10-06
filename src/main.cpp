@@ -1,6 +1,7 @@
 #include "render.h"
 #include "route_model.h"
 #include "route_planner.h"
+#include <chrono>
 #include <fstream>
 #include <io2d.h>
 #include <iostream>
@@ -73,13 +74,23 @@ int main(int argc, const char **argv) {
 
   // Create RoutePlanner object and perform A* search.
   RoutePlanner route_planner{model, start_x, start_y, end_x, end_y};
-  cout<<"Which algorithm to use: \n1: A* Search\n2:Dijkstra\n";
+  cout << "Which algorithm to use: \n1: A* Search\n2:Dijkstra\n";
   int algo_input;
-  cin>>algo_input;
+  cin >> algo_input;
+  auto t_start = std::chrono::high_resolution_clock::now();
 
-  if(algo_input==1)route_planner.AStarSearch();
-  else route_planner.Dijkstra();
+  // do something
 
+  if (algo_input == 1)
+    route_planner.AStarSearch();
+  else
+    route_planner.Dijkstra();
+  auto t_end = std::chrono::high_resolution_clock::now();
+
+  double elapsed_time_ms =
+      std::chrono::duration<double, std::milli>(t_end - t_start).count();
+
+  std::cout<<"Took "<<elapsed_time_ms<<" milliseconds\n";
   std::cout << "Distance: " << route_planner.GetDistance() << " meters. \n";
 
   // Render results of search.
