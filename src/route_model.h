@@ -14,13 +14,17 @@ class RouteModel : public Model {
       public:
         Node * parent = nullptr;
         float h_value = std::numeric_limits<float>::max();
-        float g_value = 0.0;
+        float g_value = 0;
         bool visited = false;
+        bool consumed = false;
         std::vector<Node *> neighbors;
 
         void FindNeighbors();
         float distance(Node other) const {
             return std::sqrt(std::pow((x - other.x), 2) + std::pow((y - other.y), 2));
+        }
+        float f_value() const{
+          return h_value+g_value;
         }
 
         Node(){}
